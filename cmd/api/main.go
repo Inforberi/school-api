@@ -10,7 +10,7 @@ import (
 
 	"restapi/internal/app"
 	"restapi/internal/config"
-	applog "restapi/internal/log"
+	applog "restapi/internal/logger"
 )
 
 func main() {
@@ -36,10 +36,14 @@ func main() {
 	defer stop()
 
 	// init app
-	a := app.NewApp(cfg)
+	a, err := app.NewApp(cfg, ctx)
+	if err != nil {
+		applog.Error("failed to init app", "err", err)
+		os.Exit(1)
+	}
 
 	// run app
-	if err := a.RunUntil(ctx, 10*time.Second); err != nil {
+	if err := a.RunWithContext(ctx, 10*time.Second); err != nil {
 		applog.Error("app failed", "err", err)
 		os.Exit(1)
 	}
