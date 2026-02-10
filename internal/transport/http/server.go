@@ -4,6 +4,7 @@ import (
 	"context"
 	"net/http"
 	"restapi/internal/config"
+	log "restapi/internal/logger"
 	"restapi/internal/transport/http/router"
 )
 
@@ -29,6 +30,7 @@ func NewServer(cfg *config.Config) *Server {
 
 // Run запускает HTTP-сервер (блокирующий вызов). При Shutdown возвращает http.ErrServerClosed.
 func (s *Server) Run() error {
+	log.Info("Server started", "addr", s.srv.Addr)
 	return s.srv.ListenAndServe()
 }
 
