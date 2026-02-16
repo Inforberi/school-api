@@ -54,7 +54,7 @@ func (z *zapLogger) Sync() error { return z.SugaredLogger.Sync() }
 // NewLogger создаёт Logger по level и format.
 // format == "console" → dev (читаемый вывод, stacktrace на Error), иначе → prod (JSON, без stacktrace).
 func NewLogger(level, format string) (Logger, error) {
-	if format == "console" {
+	if format == "dev" {
 		return newDev(level)
 	}
 	return newProd(level)
